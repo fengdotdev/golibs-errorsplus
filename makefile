@@ -171,6 +171,9 @@ COIPOCOMPONENTS = github.com/fengdotdev/golibs-coipocomponents
 sand: 
 	go run cmd/playground/main.go
 
+draft2:
+	go run examples/draft2/main.go
+
 
 # create a new go module
 init:
