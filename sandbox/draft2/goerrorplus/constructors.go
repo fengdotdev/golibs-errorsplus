@@ -11,7 +11,7 @@ func New(err error) *GoErrorPlus {
 		return nil
 	}
 
-	_, caller, line, _ := runtime.Caller(2)
+	_, caller, line, _ := runtime.Caller(3)
 
 	return &GoErrorPlus{
 		err:          err,
