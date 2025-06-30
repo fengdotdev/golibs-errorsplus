@@ -21,3 +21,15 @@ type GoErrorPlus struct {
 
 
 
+
+// transitive version of error plus
+type TErrorPlus struct {
+	Err     error  `json:"err"`
+	Message string `json:"message"`
+	Tags    []string `json:"tags"`
+	FN      string `json:"fn"`
+	Args    []interface{} `json:"args"`
+	Trace   string `json:"trace"`
+	Time    time.Time `json:"time"`
+	RuntimeGoVer string `json:"runtimeGoVer"`
+}
