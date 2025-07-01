@@ -2,6 +2,7 @@ package goerrorplus
 
 import (
 	"fmt"
+	"reflect"
 	"runtime"
 	"time"
 )
@@ -10,12 +11,29 @@ func New(err error) *GoErrorPlus {
 	if err == nil {
 		return nil
 	}
+	pcs := make([]uintptr, 15)
+	n := runtime.Callers(4, pcs) // saltando runtime.Callers y logStackTrace
+	frames := runtime.CallersFrames(pcs[:n-2])
 
-	_, caller, line, _ := runtime.Caller(3)
+	callerfn := runtime.FuncForPC(reflect.ValueOf(New.Pointer()).Name())
 
+	out := "\n"
+	for {
+		frame, more := frames.Next()
+		result := fmt.Sprintf("FUNC: %s AT: %s:%d\n", frame.Function, frame.File, frame.Line)
+
+		if frame.Function == "tuPaquete.New" || frame.Function == "tuPaquete.logError" {
+			continue
+		}
+
+		out += result
+		if !more {
+			break
+		}
+	}
 	return &GoErrorPlus{
 		err:          err,
-		trace:        fmt.Sprintf("[caller: %s line: %d]", caller, line),
+		trace:        out,
 		time:         time.Now(),
 		runtimeGoVer: runtime.Version(),
 	}
