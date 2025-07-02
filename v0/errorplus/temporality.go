@@ -21,4 +21,21 @@ func OnTemporality(errorplus error, retryFn func() error) error {
 
 	}
 
+	// todo something
+	return nil
+}
+
+func OverrideErrorPlus(errorplus error, newError error) error {
+	if errorplus == nil {
+		return nil
+	}
+	if gerr, ok := errorplus.(*GoError); ok {
+		gerr.selfError = nil
+		return gerr
+	}
+	return &GoError{
+		selfError: errorplus,
+		msg:       errorplus.Error(),
+		trace:     []string{},
+	}
 }
