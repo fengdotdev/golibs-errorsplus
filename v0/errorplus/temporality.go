@@ -25,7 +25,8 @@ func OnTemporality(errorplus error, retryFn func() error) error {
 	return nil
 }
 
-func OverrideErrorPlus(errorplus error, newError error) error {
+
+func OverrideErrorPlusWithErr(errorplus error, newError error) error {
 	if errorplus == nil {
 		return nil
 	}
