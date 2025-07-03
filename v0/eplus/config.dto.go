@@ -1,4 +1,4 @@
-package errorplus
+package eplus
 
 // Config holds the configuration for the errorplus package.
 type Config struct {

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/fengdotdev/golibs-errorsplus/v0/eplus"
 )
 
 var (
@@ -13,7 +14,7 @@ var (
 
 func pipeline(in string) (string, error) {
 	if len(in) > 5 {
-		return "", errorplus.NewError(
+		return "", eplus.NewError(
 			errors.New("input string is too long"),
 			"pipeline error",
 			[]string{"pipeline", "input"},
@@ -22,17 +23,17 @@ func pipeline(in string) (string, error) {
 
 	b, err := encodeStoB(in)
 	if err != nil {
-		return "", errorplus.NewError(err, "encoding error", []string{"pipeline", "encodeStoB"})
+		return "", eplus.NewError(err, "encoding error", []string{"pipeline", "encodeStoB"})
 	}
 
 	out, err := processing(b, alwaysFail)
 	if err != nil {
-		return "", errorplus.NewError(err, "processing error", []string{"pipeline", "processing"})
+		return "", eplus.NewError(err, "processing error", []string{"pipeline", "processing"})
 	}
 
 	s, err := encodeBtoS(out)
 	if err != nil {
-		return "", errorplus.NewError(err, "decoding error", []string{"pipeline", "encodeBtoS"})
+		return "", eplus.NewError(err, "decoding error", []string{"pipeline", "encodeBtoS"})
 	}
 	return s, nil
 }
@@ -53,7 +54,7 @@ func processing(in []byte, fail bool) ([]byte, error) {
 	time.Sleep(100 * time.Millisecond) // Simulate some processing delay
 
 	if fail {
-		return nil, errorplus.New(errors.New("processing failed"))
+		return nil, eplus.New(errors.New("processing failed"))
 	}
 	return in, nil
 }
@@ -72,7 +73,7 @@ func encodeBtoS(b []byte) (string, error) {
 func main() {
 	result, err := pipeline("hello")
 	if err != nil {
-		panic(errorplus.ToErrorPlus(err).VerboseError())
+		panic(eplus.ToErrorPlus(err).VerboseError())
 	}
 
 	fmt.Println("Pipeline result:", result)
@@ -80,7 +81,7 @@ func main() {
 	// Example with an error
 	_, err = pipeline("this is a long string")
 	if err != nil {
-		ep := errorplus.ToErrorPlus(err)
+		ep := eplus.ToErrorPlus(err)
 		fmt.Printf("Error: %s\n", ep.VerboseError())
 	}
 }

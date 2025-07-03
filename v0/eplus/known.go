@@ -1,4 +1,4 @@
-package errorplus
+package eplus
 
 type Known int
 

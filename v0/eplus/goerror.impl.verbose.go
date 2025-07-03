@@ -1,4 +1,4 @@
-package errorplus
+package eplus
 
 var _ Verbose = (*GoError)(nil)
 

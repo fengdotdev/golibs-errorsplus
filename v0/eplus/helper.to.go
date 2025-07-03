@@ -1,4 +1,4 @@
-package errorplus
+package eplus
 
 func ToGoError(err error) *GoError {
 	if err == nil {
@@ -13,4 +13,17 @@ func ToGoError(err error) *GoError {
 		msg:   err.Error(),
 		trace: []string{},
 	}
+}
+
+func ToErrorPlus(err error) ErrorPlus {
+	if err == nil {
+		return nil
+	}
+
+	if eplusErr, ok := err.(ErrorPlus); ok {
+		return eplusErr
+	}
+
+	goErr := ToGoError(err)
+	return New(goErr)
 }

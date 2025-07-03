@@ -1,4 +1,4 @@
-package errorplus
+package eplus
 
 var _ error = (*GoError)(nil)
 

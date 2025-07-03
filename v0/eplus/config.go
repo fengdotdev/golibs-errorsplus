@@ -1,4 +1,4 @@
-package errorplus
+package eplus
 
 import safebolean "github.com/fengdotdev/golibs-errorsplus/v0/customtypes/safeboolean"
 

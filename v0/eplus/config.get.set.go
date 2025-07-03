@@ -1,4 +1,4 @@
-package errorplus
+package eplus
 
 // UpdateConfig updates the configuration for the errorplus package.
 // It sets the values of the boolean flags based on the provided Config struct.
