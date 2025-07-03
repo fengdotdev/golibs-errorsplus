@@ -11,32 +11,10 @@ const (
 
 func OnTemporality(errorplus error, retryFn func() error) error {
 
-	// note to ia the return err is from the retryFn not the original error
-
-	if errorplus == nil {
-		return nil
-	}
-	// exec retry function only if the error is temporary
-	if gerr, ok := errorplus.(*GoError); ok {
-
-	}
-
-	// todo something
+	panic("OnTemporality is not implemented yet")
 	return nil
 }
 
-
 func OverrideErrorPlusWithErr(errorplus error, newError error) error {
-	if errorplus == nil {
-		return nil
-	}
-	if gerr, ok := errorplus.(*GoError); ok {
-		gerr.selfError = nil
-		return gerr
-	}
-	return &GoError{
-		selfError: errorplus,
-		msg:       errorplus.Error(),
-		trace:     []string{},
-	}
+	panic("OverrideErrorPlusWithErr is not implemented yet")
 }

@@ -1,6 +1,6 @@
 package errorplus
 
-import safebolean "github.com/fengdotdev/golibs-errorsplus/v0/customtypes/concurrent/safeboolean"
+import safebolean "github.com/fengdotdev/golibs-errorsplus/v0/customtypes/safeboolean"
 
 // safebolean is a concurrent safe boolean type
 
@@ -14,7 +14,3 @@ var showMessage = safebolean.True()
 var showFn = safebolean.True()
 var showFnArgs = safebolean.True()
 var ObscureArgs = safebolean.True()
-
-
-
-
