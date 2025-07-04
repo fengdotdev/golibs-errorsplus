@@ -3,7 +3,7 @@ package eplus
 import (
 	"sync"
 
-	"github.com/fengdotdev/golibs-errorsplus/v0/customtypes/ontry"
+	"github.com/fengdotdev/golibs-errorsplus/v0/customtypes/try"
 )
 
 // UpdateConfig updates the configuration for the errorplus package.
@@ -29,26 +29,26 @@ func UpdateConfig(cfg Config) {
 	traceSkipFirst.Set(cfg.TraceSkipFirst)
 
 	// ensure traceSkipFirst is not negative and in range of traceMaxDepth
-	ontry.If(cfg.TraceSkipFirst >= 0 && cfg.TraceSkipFirst < traceMaxDepth.Get()).Try(func() {
+	try.If(cfg.TraceSkipFirst >= 0 && cfg.TraceSkipFirst < traceMaxDepth.Get()).Try(func() {
 		traceSkipFirst.Set(cfg.TraceSkipFirst)
 	})
 
 	// ensure traceMaxDepth is not negative
-	ontry.If(cfg.TraceMaxDepth >= 0).Try(func() {
+	try.If(cfg.TraceMaxDepth >= 0).Try(func() {
 		traceMaxDepth.Set(cfg.TraceMaxDepth)
 	})
 	// ensure traceSkipLast is not negative and in range of traceMaxDepth
-	ontry.If(cfg.TraceSkipLast >= 0 && cfg.TraceSkipLast < traceMaxDepth.Get()).Try(func() {
+	try.If(cfg.TraceSkipLast >= 0 && cfg.TraceSkipLast < traceMaxDepth.Get()).Try(func() {
 		traceSkipLast.Set(cfg.TraceSkipLast)
 	})
 
 	// ensure time format is not empty
-	ontry.If(cfg.TimeFormat != "").Try(func() {
+	try.If(cfg.TimeFormat != "").Try(func() {
 		timeFormat.Set(cfg.TimeFormat)
 	})
 
 	// ensure separator is not empty
-	ontry.If(cfg.Separator != "").Try(func() {
+	try.If(cfg.Separator != "").Try(func() {
 		separator.Set(cfg.Separator)
 	})
 }

@@ -1,6 +1,6 @@
 package eplus
 
-import "github.com/fengdotdev/golibs-errorsplus/v0/customtypes/ontry"
+import "github.com/fengdotdev/golibs-errorsplus/v0/customtypes/try"
 
 func fmttrace(traceIn []Trace) (traceOut []Trace) {
 
@@ -21,12 +21,12 @@ func fmttrace(traceIn []Trace) (traceOut []Trace) {
 
 	nlast := traceSkipLast.Get()
 
-	ontry.If(len(traceIn) > nskip).Try(func() {
+	try.If(len(traceIn) > nskip).Try(func() {
 		// remove first elements as defined in traceSkipFirst
 		traceIn = traceIn[nskip:]
 	})
 
-	ontry.If(len(traceIn) > nlast).Try(func() {
+	try.If(len(traceIn) > nlast).Try(func() {
 		// remove last elements as defined in traceSkipLast
 		traceIn = traceIn[:len(traceIn)-nlast]
 	})

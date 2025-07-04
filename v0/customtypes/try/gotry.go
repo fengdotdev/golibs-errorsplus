@@ -1,4 +1,6 @@
-package ontry
+package try
+
+var _ IfTry = (*GoTry)(nil)
 
 type GoTry struct {
 	condition bool
@@ -7,10 +9,5 @@ type GoTry struct {
 func (gt *GoTry) Try(fn func()) {
 	if gt.condition {
 		fn()
-	}
-}
-func If(condition bool) *GoTry {
-	return &GoTry{
-		condition: condition,
 	}
 }
