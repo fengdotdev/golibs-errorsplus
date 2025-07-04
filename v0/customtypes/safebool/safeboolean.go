@@ -1,4 +1,4 @@
-package safebolean
+package safebool
 
 type SafeBoolean interface {
 	String() string

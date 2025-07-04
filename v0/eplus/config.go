@@ -1,23 +1,23 @@
 package eplus
 
 import (
-	safebolean "github.com/fengdotdev/golibs-errorsplus/v0/customtypes/safeboolean"
+	"github.com/fengdotdev/golibs-errorsplus/v0/customtypes/safebool"
 	"github.com/fengdotdev/golibs-errorsplus/v0/customtypes/safeint"
 	"github.com/fengdotdev/golibs-errorsplus/v0/customtypes/safestring"
 )
 
-// safebolean is a concurrent safe boolean type
+// safebool is a concurrent safe boolean type
 
-var showTrace = safebolean.True()
-var showFile = safebolean.True()
-var showFunc = safebolean.True()
-var showLine = safebolean.True()
-var showTimestamp = safebolean.True()
-var showTags = safebolean.True()
-var showMessage = safebolean.True()
-var showFn = safebolean.True()
-var showFnArgs = safebolean.True()
-var obscureArgs = safebolean.True()
+var showTrace = safebool.True()
+var showFile = safebool.True()
+var showFunc = safebool.True()
+var showLine = safebool.True()
+var showTimestamp = safebool.True()
+var showTags = safebool.True()
+var showMessage = safebool.True()
+var showFn = safebool.True()
+var showFnArgs = safebool.True()
+var obscureArgs = safebool.True()
 
 //skip first 3 frames in the trace
 

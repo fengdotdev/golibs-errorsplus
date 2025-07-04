@@ -1,4 +1,4 @@
-package safebolean
+package safebool
 
 import "sync"
 

@@ -1,4 +1,4 @@
-package safebolean
+package safebool
 
 func (sb *GoBoolean) Set(value bool) {
 	sb.mu.Lock()
