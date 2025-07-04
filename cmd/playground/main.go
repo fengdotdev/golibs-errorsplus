@@ -15,25 +15,23 @@ var (
 func pipeline(in string) (string, error) {
 	if len(in) > 5 {
 		return "", eplus.NewError(
-			errors.New("input string is too long"),
-			"pipeline error",
-			[]string{"pipeline", "input"},
+			"input string is too long",
 		)
 	}
 
 	b, err := encodeStoB(in)
 	if err != nil {
-		return "", eplus.NewError(err, "encoding error", []string{"pipeline", "encodeStoB"})
+		return "", eplus.WrapError(err, "encoding error")
 	}
 
 	out, err := processing(b, alwaysFail)
 	if err != nil {
-		return "", eplus.NewError(err, "processing error", []string{"pipeline", "processing"})
+		return "", eplus.WrapError(err, "processing error")
 	}
 
 	s, err := encodeBtoS(out)
 	if err != nil {
-		return "", eplus.NewError(err, "decoding error", []string{"pipeline", "encodeBtoS"})
+		return "", eplus.WrapError(err, "decoding error")
 	}
 	return s, nil
 }
@@ -49,19 +47,21 @@ func encodeStoB(s string) ([]byte, error) {
 	return b, nil
 }
 
+var ErrProcessing = errors.New("processing error")
+
 func processing(in []byte, fail bool) ([]byte, error) {
 
 	time.Sleep(100 * time.Millisecond) // Simulate some processing delay
 
 	if fail {
-		return nil, eplus.New(errors.New("processing failed"))
+		return nil, eplus.New(ErrProcessing)
 	}
 	return in, nil
 }
 
 func encodeBtoS(b []byte) (string, error) {
 	if len(b) == 0 {
-		return "", errors.New("input byte slice is empty")
+		return "", eplus.CriticalError("input byte slice is empty")
 	}
 	s := make([]byte, len(b))
 	for i := range b {

@@ -1,12 +1,12 @@
 package eplus
 
-type Temporality int
+type Temporality bool
 
 const (
 	// Permanent indicates an error that is unlikely to be resolved.
-	Permanent Temporality = iota
+	Permanent Temporality = false // default temporality
 	// Temporary indicates an error that may be resolved in the future.
-	Temporary
+	Temporary Temporality = true
 )
 
 func OnTemporality(errorplus error, retryFn func() error) error {

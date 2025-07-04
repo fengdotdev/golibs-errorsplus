@@ -1,8 +1,8 @@
 package eplus
 
-type Known int
+type Knowledge bool
 
 const (
-	UnknownError Known = iota
-	ExpectedError
+	UnknownError  Knowledge = false
+	ExpectedError Knowledge = true
 )
