@@ -1,5 +1,7 @@
 package eplus
 
+import "github.com/fengdotdev/golibs-errorsplus/v0/customtypes/try"
+
 var _ Verbose = (*GoError)(nil)
 
 // VerboseError implements Verbose.
@@ -7,27 +9,18 @@ func (e *GoError) VerboseError() string {
 
 	output := ""
 
-	if e.trace == nil {
-		output = ""
-	} else {
+	try.If(e == nil).Try(func() {
+		output = "GoError is nil"
+		return
+	})
 
-		// format the trace
-		fmttrace := fmttrace(e.trace)
+	try.If(showMessage.Get()).Try(func() {
+		output = e.msg + "\n"
+	})
 
-		if len(fmttrace) == 0 {
-			output = "No trace available\n"
-		} else {
-			output = "Trace:\n"
-
-			for _, f := range fmttrace {
-
-				result := "-----> " + "func: " + f.Function + " at: " + f.File + " line: " + f.LineStr() + "\n"
-
-				output += result
-			}
-		}
-
-	}
+	try.If(showTrace.Get()).Try(func() {
+		output += e.TraceString() + "\n"
+	})
 
 	return output
 }
