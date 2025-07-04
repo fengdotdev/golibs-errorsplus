@@ -5,18 +5,29 @@ var _ Verbose = (*GoError)(nil)
 // VerboseError implements Verbose.
 func (e *GoError) VerboseError() string {
 
-	ftmtrace := ""
+	output := ""
 
-	if trace == nil {
-		ftmtrace = ""
+	if e.trace == nil {
+		output = ""
 	} else {
-		for _, f := range e.trace {
 
-			result := f.Function + " at " + f.File + ":" + string(f.Line) + "\n"
+		// format the trace
+		fmttrace := fmttrace(e.trace)
 
-			ftmtrace += result
+		if len(fmttrace) == 0 {
+			output = "No trace available\n"
+		} else {
+			output = "Trace:\n"
+
+			for _, f := range fmttrace {
+
+				result := "-----> " + "func: " + f.Function + " at: " + f.File + " line: " + f.LineStr() + "\n"
+
+				output += result
+			}
 		}
+
 	}
 
-	return ftmtrace
+	return output
 }

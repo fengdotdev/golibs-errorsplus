@@ -1,8 +1,7 @@
 package eplus
 
 var (
-	timeFormat    = "2006-01-02 15:04:05" // Time format used in VerboseError
-	separator     = " | "                 // Separator used in VerboseError
+
 	packageName   = "errorplus"           // Package name used in VerboseError
-	defaultConfig = Config{}
+	defaultConfig = Config{}              // will be provided by the user via SetConfig or getConfig or GetDefaultConfig automatically and once only once
 )

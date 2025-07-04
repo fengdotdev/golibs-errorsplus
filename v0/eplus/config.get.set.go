@@ -1,6 +1,10 @@
 package eplus
 
-import "sync"
+import (
+	"sync"
+
+	"github.com/fengdotdev/golibs-errorsplus/v0/customtypes/ontry"
+)
 
 // UpdateConfig updates the configuration for the errorplus package.
 // It sets the values of the boolean flags based on the provided Config struct.
@@ -23,8 +27,30 @@ func UpdateConfig(cfg Config) {
 	showFnArgs.Set(cfg.ShowFnArgs)
 	obscureArgs.Set(cfg.ObscureArgs)
 	traceSkipFirst.Set(cfg.TraceSkipFirst)
-	traceMaxDepth.Set(cfg.TraceMaxDepth)
-	traceSkipLast.Set(cfg.TraceSkipLast)
+
+	// ensure traceSkipFirst is not negative and in range of traceMaxDepth
+	ontry.If(cfg.TraceSkipFirst >= 0 && cfg.TraceSkipFirst < traceMaxDepth.Get()).Try(func() {
+		traceSkipFirst.Set(cfg.TraceSkipFirst)
+	})
+
+	// ensure traceMaxDepth is not negative
+	ontry.If(cfg.TraceMaxDepth >= 0).Try(func() {
+		traceMaxDepth.Set(cfg.TraceMaxDepth)
+	})
+	// ensure traceSkipLast is not negative and in range of traceMaxDepth
+	ontry.If(cfg.TraceSkipLast >= 0 && cfg.TraceSkipLast < traceMaxDepth.Get()).Try(func() {
+		traceSkipLast.Set(cfg.TraceSkipLast)
+	})
+
+	// ensure time format is not empty
+	ontry.If(cfg.TimeFormat != "").Try(func() {
+		timeFormat.Set(cfg.TimeFormat)
+	})
+
+	// ensure separator is not empty
+	ontry.If(cfg.Separator != "").Try(func() {
+		separator.Set(cfg.Separator)
+	})
 }
 
 // GetConfig returns the current configuration for the errorplus package.
@@ -33,7 +59,10 @@ func UpdateConfig(cfg Config) {
 // the config obj is a copy of the current config
 func GetConfig() Config {
 	saveDefaultConfig() // ensure default config is saved
+	return getConfig()
+}
 
+func getConfig() Config {
 	return Config{
 		ShowTimestamp:  showTimestamp.Get(),
 		ShowTrace:      showTrace.Get(),
@@ -48,6 +77,8 @@ func GetConfig() Config {
 		TraceSkipFirst: traceSkipFirst.Get(),
 		TraceMaxDepth:  traceMaxDepth.Get(),
 		TraceSkipLast:  traceSkipLast.Get(),
+		TimeFormat:     timeFormat.Get(),
+		Separator:      separator.Get(),
 	}
 }
 
@@ -61,24 +92,30 @@ var once sync.Once
 func saveDefaultConfig() {
 
 	once.Do(func() {
-		conf := Config{
-			ShowTimestamp:  showTimestamp.Get(),
-			ShowTrace:      showTrace.Get(),
-			ShowFile:       showFile.Get(),
-			ShowFunc:       showFunc.Get(),
-			ShowLine:       showLine.Get(),
-			ShowTags:       showTags.Get(),
-			ShowMessage:    showMessage.Get(),
-			ShowFn:         showFn.Get(),
-			ShowFnArgs:     showFnArgs.Get(),
-			ObscureArgs:    obscureArgs.Get(),
-			TraceSkipFirst: traceSkipFirst.Get(),
-			TraceMaxDepth:  traceMaxDepth.Get(),
-			TraceSkipLast:  traceSkipLast.Get(),
-		}
+		conf := getConfig() // get the current config
 
 		defaultConfig = conf
 
 	})
+
+}
+
+func ResetConfig() {
+
+	showTrace.Reset()
+	showFile.Reset()
+	showFunc.Reset()
+	showLine.Reset()
+	showTimestamp.Reset()
+	showTags.Reset()
+	showMessage.Reset()
+	showFn.Reset()
+	showFnArgs.Reset()
+	obscureArgs.Reset()
+	traceSkipFirst.Reset()
+	traceMaxDepth.Reset()
+	traceSkipLast.Reset()
+	timeFormat.Reset()
+	separator.Reset()
 
 }

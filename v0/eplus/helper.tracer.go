@@ -5,40 +5,34 @@ import (
 	"runtime"
 )
 
-type Trace struct {
-	File     string
-	Function string
-	Line     string
-}
+// trace returns a slice of Trace structs representing the call stack (all of it)
+func trace() (traceStack []Trace) {
+	traceStack = []Trace{}
 
-func trace() []Trace {
+	// this func may fail if the stack is too deep or other runtime issues,
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("Recovered in trace:", r)
+			// return empty trace stack
+			traceStack = []Trace{}
+			return
+		}
+	}()
 
-	traceStack := []Trace{}
-
-	const maxDepth = 15
+	maxDepth := traceMaxDepth.Get()
 	pcs := make([]uintptr, maxDepth)
 
-	// skip=3:
-	// 0 = runtime.Callers
-	// 1 = New
-	// 2 = función que llama a New
-	skip := 3
-
-	n := runtime.Callers(skip, pcs)
+	n := runtime.Callers(0, pcs)
 	frames := runtime.CallersFrames(pcs[:n])
 
 	for {
 		frame, more := frames.Next()
 		AreWeFinish := !more
 
-		//if frame.Function == "runtime.goexit" {
-		//	continue
-		//}
-
 		trace := Trace{
 			File:     frame.File,
 			Function: frame.Function,
-			Line:     fmt.Sprintf("%d", frame.Line),
+			Line:     frame.Line,
 		}
 		traceStack = append(traceStack, trace)
 
@@ -48,10 +42,5 @@ func trace() []Trace {
 
 	}
 
-	// remove last 2 elements for runtime.main runtime.goexit
-
-	if len(traceStack) > 2 {
-		traceStack = traceStack[:len(traceStack)-2]
-	}
 	return traceStack
 }
