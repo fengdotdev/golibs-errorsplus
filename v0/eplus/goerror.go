@@ -6,6 +6,6 @@ type GoError struct {
 	child     error
 	selfError error
 	msg       string
-	trace     []string
+	trace     []Trace
 	tags      map[string]struct{} // set of tags
 }

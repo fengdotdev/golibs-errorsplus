@@ -5,30 +5,53 @@ import (
 	"runtime"
 )
 
-func trace() []string {
+type Trace struct {
+	File     string
+	Function string
+	Line     string
+}
 
-	trace := []string{}
+func trace() []Trace {
 
-	// := 2 // Skip the current function and the caller of this function
-	frames := runtime.CallersFrames(make([]uintptr, 0, 64))
+	traceStack := []Trace{}
 
-	//n := runtime.Callers(skip, nil)
+	const maxDepth = 15
+	pcs := make([]uintptr, maxDepth)
+
+	// skip=3:
+	// 0 = runtime.Callers
+	// 1 = New
+	// 2 = función que llama a New
+	skip := 3
+
+	n := runtime.Callers(skip, pcs)
+	frames := runtime.CallersFrames(pcs[:n])
 
 	for {
 		frame, more := frames.Next()
 		AreWeFinish := !more
-		result := fmt.Sprintf("FUNC: %s AT: %s:%d\n", frame.Function, frame.File, frame.Line)
 
-		if frame.Function == packageName || frame.Function == packageName {
-			// do nothing,
-		} else {
-			trace = append(trace, result)
+		//if frame.Function == "runtime.goexit" {
+		//	continue
+		//}
+
+		trace := Trace{
+			File:     frame.File,
+			Function: frame.Function,
+			Line:     fmt.Sprintf("%d", frame.Line),
 		}
+		traceStack = append(traceStack, trace)
 
 		if AreWeFinish {
 			break
 		}
 
 	}
-	return trace
+
+	// remove last 2 elements for runtime.main runtime.goexit
+
+	if len(traceStack) > 2 {
+		traceStack = traceStack[:len(traceStack)-2]
+	}
+	return traceStack
 }

@@ -71,6 +71,13 @@ func encodeBtoS(b []byte) (string, error) {
 }
 
 func main() {
+
+	ep := eplus.New(errors.New("this is a test error"))
+	fmt.Println("Error:", ep.VerboseError())
+
+}
+
+func Foo() {
 	result, err := pipeline("hello")
 	if err != nil {
 		panic(eplus.ToErrorPlus(err).VerboseError())

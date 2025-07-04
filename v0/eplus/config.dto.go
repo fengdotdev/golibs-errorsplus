@@ -12,4 +12,7 @@ type Config struct {
 	ShowFn        bool `json:"show_fn"`
 	ShowFnArgs    bool `json:"show_fn_args"`
 	ObscureArgs   bool `json:"obscure_args"`
+	TraceSkipFirst int  `json:"trace_skip_first"` // skip first n frames in the trace
+	TraceMaxDepth  int  `json:"trace_max_depth"`  // maximum depth of the trace
+	TraceSkipLast  int  `json:"trace_skip_last"`  // skip last n frames in the trace
 }

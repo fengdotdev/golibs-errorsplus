@@ -1,11 +1,12 @@
 package safebolean
 
 type SafeBoolean interface {
-	IsTrue() bool
-	IsFalse() bool
 	String() string
 	Get() bool
+	GetDefault() bool // returns the default value
+
 	Value() bool
 	Set(value bool)
 	Toggle()
+	Reset() // to default value not false necessarily
 }

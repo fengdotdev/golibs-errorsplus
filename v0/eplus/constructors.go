@@ -5,9 +5,9 @@ func New(err error) ErrorPlus {
 		return nil
 	}
 
-	traceSlice := trace()
+	traceStack := trace()
 	tags := make([]string, 0)
-	goerr := NewGoError("", err, traceSlice, tags)
+	goerr := NewGoError("", err, traceStack, tags)
 	return goerr
 }
 

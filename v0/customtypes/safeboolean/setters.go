@@ -13,3 +13,8 @@ func (sb *GoBoolean) Toggle() {
 
 }
 
+func (sb *GoBoolean) Reset() {
+	sb.mu.Lock()
+	defer sb.mu.Unlock()
+	sb.value = sb.defaultValue
+}

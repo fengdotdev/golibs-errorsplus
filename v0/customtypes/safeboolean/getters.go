@@ -1,17 +1,5 @@
 package safebolean
 
-func (sb *GoBoolean) IsTrue() bool {
-	sb.mu.Lock()
-	defer sb.mu.Unlock()
-	return sb.value
-}
-
-func (sb *GoBoolean) IsFalse() bool {
-	sb.mu.Lock()
-	defer sb.mu.Unlock()
-	return !sb.value
-}
-
 func (sb *GoBoolean) String() string {
 	sb.mu.Lock()
 	defer sb.mu.Unlock()
@@ -31,4 +19,10 @@ func (sb *GoBoolean) Value() bool {
 	sb.mu.Lock()
 	defer sb.mu.Unlock()
 	return sb.value
+}
+
+func (sb *GoBoolean) GetDefault() bool {
+	sb.mu.Lock()
+	defer sb.mu.Unlock()
+	return sb.defaultValue
 }

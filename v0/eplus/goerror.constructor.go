@@ -1,6 +1,6 @@
 package eplus
 
-func NewGoError(msg string, selfError error, trace []string, tags []string) *GoError {
+func NewGoError(msg string, selfError error, trace []Trace, tags []string) *GoError {
 	if msg == "" && selfError == nil {
 		return nil
 	}

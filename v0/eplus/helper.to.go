@@ -2,7 +2,7 @@ package eplus
 
 func ToGoError(err error) *GoError {
 	if err == nil {
-		return &GoError{msg: "", trace: []string{}} // GoError vacío para nil
+		return &GoError{msg: "", trace: nil} // GoError vacío para nil
 	}
 
 	if gerr, ok := err.(*GoError); ok {
@@ -11,7 +11,7 @@ func ToGoError(err error) *GoError {
 
 	return &GoError{
 		msg:   err.Error(),
-		trace: []string{},
+		trace: nil,
 	}
 }
 
