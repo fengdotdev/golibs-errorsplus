@@ -1,5 +1,12 @@
 package eplus
 
 type Verbose interface {
-	VerboseError() string
+	Verbose() string
+	Trace() []struct {
+		File string
+		Line int
+		Func string
+	}
+	Msg() string
+	
 }

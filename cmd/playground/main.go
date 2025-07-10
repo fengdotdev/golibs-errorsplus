@@ -73,14 +73,14 @@ func encodeBtoS(b []byte) (string, error) {
 func main() {
 
 	ep := eplus.New(errors.New("this is a test error"))
-	fmt.Println("Error:", ep.VerboseError())
+	fmt.Println("Error:", ep.Verbose())
 
 }
 
 func Foo() {
 	result, err := pipeline("hello")
 	if err != nil {
-		panic(eplus.ToErrorPlus(err).VerboseError())
+		panic(eplus.ToErrorPlus(err).Verbose())
 	}
 
 	fmt.Println("Pipeline result:", result)
@@ -89,6 +89,6 @@ func Foo() {
 	_, err = pipeline("this is a long string")
 	if err != nil {
 		ep := eplus.ToErrorPlus(err)
-		fmt.Printf("Error: %s\n", ep.VerboseError())
+		fmt.Printf("Error: %s\n", ep.Verbose())
 	}
 }

@@ -5,7 +5,7 @@ import "github.com/fengdotdev/golibs-errorsplus/v0/customtypes/try"
 var _ Verbose = (*GoError)(nil)
 
 // VerboseError implements Verbose.
-func (e *GoError) VerboseError() string {
+func (e *GoError) Verbose() string {
 
 	output := ""
 
